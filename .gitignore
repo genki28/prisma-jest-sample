@@ -1,0 +1,3 @@
+node_modules
+.docker/mysql/data
+.docker/mysql/my.cnf
