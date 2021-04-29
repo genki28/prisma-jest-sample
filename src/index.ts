@@ -1,6 +1,6 @@
 import express from 'express'
 const app = express()
-const PORT = 9090
+const PORT = process.env.PORT || 9090
 
 app.get('/', (req, res, next) => {
     res.status(200).send({ data: 'hoge' })

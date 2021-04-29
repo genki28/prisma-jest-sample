@@ -6,3 +6,9 @@ ps:
 	docker-compose ps
 down:
 	docker-compose down
+work:
+	docker exec -it node-app bash
+test:
+	docker exec node-app yarn test
+migrate:
+	docker exec node-app yarn prisma migrate dev --name init
