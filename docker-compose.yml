@@ -41,7 +41,7 @@ services:
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOSTS=mysql
-      - PMA_USER=user
+      - PMA_USER=root
       - PMA_PASSWORD=rootroot
     ports:
       - 8080:80
