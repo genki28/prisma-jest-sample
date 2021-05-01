@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node-dev --poll src/index.ts",
-    "test": "PORT=7070 jest --detectOpenHandles"
+    "test": "PORT=7070 jest --detectOpenHandles",
+    "prisma-migrate": "DATABASE_URL='mysql://user:rootroot@localhost:3306/test_database?schema=public' npx prisma migrate dev --name init --preview-feature"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
