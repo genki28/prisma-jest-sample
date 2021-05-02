@@ -2,3 +2,4 @@ node_modules
 .docker/mysql/data
 .env
 test.env
+application.log

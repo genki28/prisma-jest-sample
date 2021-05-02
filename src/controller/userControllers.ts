@@ -1,5 +1,6 @@
 import express from 'express'
 import userRepository from '../Repository/userRepository'
+import logger from '../logger/logger'
 
 export default {
   index: async (
@@ -11,7 +12,7 @@ export default {
       const users = await userRepository.index()
       res.status(200).send({ status: 200, data: users })
     } catch(e) {
-      console.error(e) // とりあえずconsoleエラー
+      logger.debug(e)
       next()
     }
     // res.send('test')
