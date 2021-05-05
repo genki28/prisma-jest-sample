@@ -9,6 +9,8 @@ RUN yarn install
 
 COPY . .
 
+RUN yarn prisma generate
+
 EXPOSE 9090
 
 CMD ["yarn", "start"]
