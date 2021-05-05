@@ -12,6 +12,7 @@ export default {
       const users = await userRepository.index()
       res.status(200).send({ status: 200, data: users })
     } catch(e) {
+      console.error(e)
       logger.debug(e)
       next()
     }

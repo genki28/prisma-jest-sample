@@ -4,7 +4,6 @@ const prisma = new PrismaClient()
 
 export default {
   index: () => {
-    logger.debug('とりあえずここまではOK')
     return prisma.user.findMany()
   }
 }
