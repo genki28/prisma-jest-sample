@@ -1,5 +1,10 @@
 import { PrismaClient } from '@prisma/client'
+import dotenv from 'dotenv'
+import path from 'path'
 import * as userRepository from '../../Repository/userRepository'
+
+const nodeEnv = process.env.NODE_ENV
+dotenv.config({ path: path.resolve(__dirname, `../../config/.env.${nodeEnv}`)})
 
 const prisma = new PrismaClient()
 afterAll(async (done) => {
