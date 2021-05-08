@@ -9,4 +9,4 @@ down:
 work:
 	docker exec -it node-app bash
 test:
-	docker exec node-app yarn test
+	yarn test

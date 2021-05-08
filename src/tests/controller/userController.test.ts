@@ -43,5 +43,7 @@ describe('ユーザー画面のcontrollerテスト', () => {
     await userController.index(req, res, next)
 
     expect(res.status).toBe(200)
+
+    done()
   })
 })

@@ -9,4 +9,6 @@ module.exports = {
   "transform": {
     "^.+\\.(ts|tsx)$": "ts-jest"
   },
+  "preset": "ts-jest",
+  "testEnvironment": "./prisma/prisma-test-environment.js"
 }

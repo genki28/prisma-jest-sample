@@ -11,10 +11,10 @@ class PrismaTestEnvironment extends NodeEnvironment {
 
   async setup() {
     const nodeEnv = process.env.NODE_ENV
-    const env = dotenv.config({ path: path.resolve(__dirname, `../src/config/.env.${nodeEnv}`)})
+    dotenv.config({ path: path.resolve(__dirname, `../src/config/.env.${nodeEnv}`)})
 
-    await exec('yarn prisma db push --prebview-feature --accept-data-loss')
-    await exec('yearn prisma generate')
+    await exec('yarn prisma db push --preview-feature --accept-data-loss')
+    await exec('yarn prisma generate')
     await exec('yarn prisma db seed --preview-feature')
 
     return super.setup()
