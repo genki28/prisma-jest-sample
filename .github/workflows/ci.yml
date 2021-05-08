@@ -30,7 +30,8 @@ jobs:
       
       - name: Docker up
         run: docker-compose up -d
-        run: docker-compose ps
+      
+      - run: docker-compose ps
       
       - name: Run Tests
         run: yarn test
