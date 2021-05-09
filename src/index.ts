@@ -2,7 +2,9 @@ import express from 'express'
 import userRoutes from './routes/userRoutes'
 import dotenv from 'dotenv'
 import path from 'path'
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
+import { schema } from './schema/schema'
+import { resolvers } from './resolvers/resolvers'
 
 const app = express()
 const nodeEnv = process.env.NODE_ENV
@@ -12,19 +14,7 @@ const PORT = process.env.PORT || 9090
 
 app.use('/users', userRoutes)
 
-const typeDefs = gql`
-    type Query {
-        hello: String
-    }
-`
-
-const resolvers = {
-    Query: {
-        hello: () => 'Hello world!!',
-    }
-}
-
-const graphQLServer = new ApolloServer({ typeDefs, resolvers });
+const graphQLServer = new ApolloServer({ typeDefs: schema, resolvers });
 graphQLServer.applyMiddleware({ app })
 
 const server = app.listen(PORT, () => {

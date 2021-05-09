@@ -1,18 +1,19 @@
 import { gql } from 'apollo-server-express'
-import { dateTimeScalar } from './graphqlScalar'
 
 export const schema = gql`
+  scalar DateTime
+
   type User {
     id: ID!
     email: String
-    name: String?
+    name: String
     posts: [Post]
-    profile: Profile?
+    profile: Profile
   }
 
   type Profile {
     id: ID!
-    bio: String?
+    bio: String
     user: User
     userId: Int
   }
@@ -24,7 +25,11 @@ export const schema = gql`
     published: Boolean
     author: User
     authorId: Int
-    createdAt: dateTimeScalar
-    updatedAt: dateTimeScalar
+    createdAt: DateTime
+    updatedAt: DateTime
+  }
+
+  type Query {
+    users: [User]
   }
 `
