@@ -30,6 +30,7 @@ export const schema = gql`
   }
 
   type Query {
-    users: [User]
+    users: [User],
+    user: User
   }
 `
