@@ -33,4 +33,21 @@ export const schema = gql`
     users: [User],
     user: User
   }
+
+  type Mutation {
+    createUser(data: createUserInput!): User
+    createPost(data: createPostInput!): Post
+  }
+
+  input createUserInput {
+    email: String!
+    name: String!
+  }
+
+  input createPostInput {
+    title: String
+    content: String
+    published: Boolean
+    authorId: Int
+  }
 `
