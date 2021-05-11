@@ -53,8 +53,19 @@ export type Profile = {
 
 export type Query = {
   __typename?: 'Query';
-  users?: Maybe<Array<Maybe<User>>>;
   user?: Maybe<User>;
+  getPagenationUsers?: Maybe<GetUserResponse>;
+};
+
+
+export type QueryUserArgs = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+
+export type QueryGetPagenationUsersArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
 };
 
 export type User = {
@@ -76,6 +87,13 @@ export type CreatePostInput = {
 export type CreateUserInput = {
   email: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type GetUserResponse = {
+  __typename?: 'getUserResponse';
+  data?: Maybe<Array<Maybe<User>>>;
+  nextPage?: Maybe<Scalars['Boolean']>;
+  prevPage?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -168,6 +186,7 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   createPostInput: CreatePostInput;
   createUserInput: CreateUserInput;
+  getUserResponse: ResolverTypeWrapper<GetUserResponse>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -184,6 +203,7 @@ export type ResolversParentTypes = {
   User: User;
   createPostInput: CreatePostInput;
   createUserInput: CreateUserInput;
+  getUserResponse: GetUserResponse;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -216,8 +236,8 @@ export type ProfileResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, never>>;
+  getPagenationUsers?: Resolver<Maybe<ResolversTypes['getUserResponse']>, ParentType, ContextType, RequireFields<QueryGetPagenationUsersArgs, never>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -229,6 +249,13 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type GetUserResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['getUserResponse'] = ResolversParentTypes['getUserResponse']> = {
+  data?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  nextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  prevPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
@@ -236,6 +263,7 @@ export type Resolvers<ContextType = any> = {
   Profile?: ProfileResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  getUserResponse?: GetUserResponseResolvers<ContextType>;
 };
 
 

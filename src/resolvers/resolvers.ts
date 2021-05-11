@@ -7,8 +7,23 @@ export const resolvers = {
   DateTime: dateTimeScalar,
 
   Query: {
-    users: async () => await getAllUser(),
-    user: async (id: number) => await getUser(id)
+    // users: async (query: )  => {
+    //   const users = await getAllUser(query.page, query.perPage)
+    //   return {
+    //     data: users,
+    //     nextPage: true,
+    //     prevPage: true
+    //   }
+    // },
+    user: async (id: number) => await getUser(id),
+    getPagenationUsers: async (_:any, query: { page: number, perPage: number}) => {
+      const users = await getAllUser(query.page, query.perPage)
+      return {
+        data: users,
+        nextPage: true,
+        prevPage: true
+      }
+    }
   },
   Mutation: {
     createUser: async (_: any, args: MutationCreateUserArgs) => {

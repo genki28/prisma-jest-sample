@@ -29,14 +29,26 @@ export const schema = gql`
     updatedAt: DateTime
   }
 
+  # input getUserInput {
+  #   page: Int!
+  #   perPage: Int!
+  # }
+
   type Query {
-    users: [User],
-    user: User
+    # users(query: getUserInput): getUserResponse,
+    user(id: ID): User,
+    getPagenationUsers(page: Int, perPage: Int): getUserResponse
   }
 
   type Mutation {
     createUser(data: createUserInput!): User
     createPost(data: createPostInput!): Post
+  }
+
+  type getUserResponse {
+    data: [User],
+    nextPage: Boolean,
+    prevPage: Boolean
   }
 
   input createUserInput {
