@@ -1,15 +1,10 @@
 import { PrismaClient } from '@prisma/client'
-import { CreateUserInput } from '../@types/graphql'
+import { CreateUserInput, QueryGetCursorUsersArgs, QueryGetOffsetUsersArgs } from '../@types/graphql'
 const prisma = new PrismaClient()
 
-export function getAllUser(page: number, perPage: number) {
-  console.log(page, perPage)
-  const pageData = page ? page : 1
-  const perPageData = perPage ? perPage : 10
+export function getAllUser() {
   return prisma.user.findMany(
     {
-      skip: (pageData - 1) * perPageData,
-      take: perPage,
       include: 
       {
         posts: true
@@ -36,4 +31,32 @@ export function createUser(data: CreateUserInput) {
       name: data.name
     }
   })
+}
+
+export function getCursorUsers(query: QueryGetCursorUsersArgs) {
+  const cursor = query.cursor ? query.cursor : 1
+  const take = query.pageItem ? query.pageItem : 10 // デフォルト設定
+
+  return Promise.all([
+    prisma.user.count(),
+    prisma.user.findMany({
+      take: take,
+      skip: cursor === 1 ? 1 : 0,
+      cursor: {
+        id: cursor
+      }
+    })
+  ])
+}
+
+export function getOffsetUsers(query: QueryGetOffsetUsersArgs) {
+  const take = query.pageItem ? query.pageItem : 10 // デフォルト設定
+  const skip = query.page ? (query.page - 1) * take : 0
+  return Promise.all([
+    prisma.user.count(),
+    prisma.user.findMany({
+      take: take,
+      skip: skip
+    })
+  ])
 }

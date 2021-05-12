@@ -37,7 +37,8 @@ export const schema = gql`
   type Query {
     # users(query: getUserInput): getUserResponse,
     user(id: ID): User,
-    getPagenationUsers(page: Int, perPage: Int): getUserResponse
+    getCursorUsers(pageItem: Int, cursor: Int): getUserResponse
+    getOffsetUsers(pageItem: Int, page: Int): getUserResponse
   }
 
   type Mutation {
@@ -47,8 +48,7 @@ export const schema = gql`
 
   type getUserResponse {
     data: [User],
-    nextPage: Boolean,
-    prevPage: Boolean
+    total: Int
   }
 
   input createUserInput {

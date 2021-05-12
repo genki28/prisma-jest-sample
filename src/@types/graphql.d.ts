@@ -54,7 +54,8 @@ export type Profile = {
 export type Query = {
   __typename?: 'Query';
   user?: Maybe<User>;
-  getPagenationUsers?: Maybe<GetUserResponse>;
+  getCursorUsers?: Maybe<GetUserResponse>;
+  getOffsetUsers?: Maybe<GetUserResponse>;
 };
 
 
@@ -63,9 +64,15 @@ export type QueryUserArgs = {
 };
 
 
-export type QueryGetPagenationUsersArgs = {
+export type QueryGetCursorUsersArgs = {
+  pageItem?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryGetOffsetUsersArgs = {
+  pageItem?: Maybe<Scalars['Int']>;
   page?: Maybe<Scalars['Int']>;
-  perPage?: Maybe<Scalars['Int']>;
 };
 
 export type User = {
@@ -92,8 +99,7 @@ export type CreateUserInput = {
 export type GetUserResponse = {
   __typename?: 'getUserResponse';
   data?: Maybe<Array<Maybe<User>>>;
-  nextPage?: Maybe<Scalars['Boolean']>;
-  prevPage?: Maybe<Scalars['Boolean']>;
+  total?: Maybe<Scalars['Int']>;
 };
 
 
@@ -237,7 +243,8 @@ export type ProfileResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, never>>;
-  getPagenationUsers?: Resolver<Maybe<ResolversTypes['getUserResponse']>, ParentType, ContextType, RequireFields<QueryGetPagenationUsersArgs, never>>;
+  getCursorUsers?: Resolver<Maybe<ResolversTypes['getUserResponse']>, ParentType, ContextType, RequireFields<QueryGetCursorUsersArgs, never>>;
+  getOffsetUsers?: Resolver<Maybe<ResolversTypes['getUserResponse']>, ParentType, ContextType, RequireFields<QueryGetOffsetUsersArgs, never>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -251,8 +258,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type GetUserResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['getUserResponse'] = ResolversParentTypes['getUserResponse']> = {
   data?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
-  nextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  prevPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  total?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

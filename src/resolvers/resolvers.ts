@@ -1,27 +1,25 @@
 import { dateTimeScalar } from '../schema/graphqlScalar'
-import { getAllUser, getUser, createUser } from '../Repository/userRepository'
+import { getUser, createUser, getCursorUsers, getOffsetUsers } from '../Repository/userRepository'
 import logger from '../logger/logger'
-import { MutationCreateUserArgs } from '../@types/graphql'
+import { MutationCreateUserArgs, QueryGetCursorUsersArgs, QueryGetOffsetUsersArgs } from '../@types/graphql'
 
 export const resolvers = {
   DateTime: dateTimeScalar,
 
   Query: {
-    // users: async (query: )  => {
-    //   const users = await getAllUser(query.page, query.perPage)
-    //   return {
-    //     data: users,
-    //     nextPage: true,
-    //     prevPage: true
-    //   }
-    // },
     user: async (id: number) => await getUser(id),
-    getPagenationUsers: async (_:any, query: { page: number, perPage: number}) => {
-      const users = await getAllUser(query.page, query.perPage)
+    getCursorUsers: async (_: any, query: QueryGetCursorUsersArgs) => {
+      const [count, users] = await getCursorUsers(query)
       return {
         data: users,
-        nextPage: true,
-        prevPage: true
+        total: count
+      }
+    },
+    getOffsetUsers: async (_: any, query: QueryGetOffsetUsersArgs) => {
+      const [count, users] = await getOffsetUsers(query)
+      return {
+        data: users,
+        total: count
       }
     }
   },
@@ -30,7 +28,7 @@ export const resolvers = {
       try {
         const user = await createUser(args.data)
         return user
-      } catch(e) {
+      } catch (e) {
         logger.debug(e.stack)
       }
     }

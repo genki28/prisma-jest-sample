@@ -17,9 +17,9 @@ describe("user関係のテスト", () => {
     const users = await userRepository.getAllUser()
     const user = users[0]
 
-    expect(user.email).toBe("alice@prisma.io")
-    expect(user.posts[0].title).toBe("Check out Prisma with Next.js")
-    expect(user.posts[0].content).toBe("https://www.prisma.io/nextJs")
+    expect(user.email).toBe("bob1@prisma.io")
+    expect(user.posts[0].title).toBe("Follow Prisma on Twitter")
+    expect(user.posts[0].content).toBe("https://twitter.com/prisma")
     expect(user.posts[0].published).toBe(true)
     done()
   })

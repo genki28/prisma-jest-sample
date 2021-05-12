@@ -2,51 +2,32 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  const alice = await prisma.user.upsert({
-    where: { email: 'alice@prisma.io'},
-    update: {
-      email: 'alice@prisma.io',
-      name: 'Alice',
-    },
-    create: {
-      email: 'alice@prisma.io',
-      name: 'Alice',
-      posts: {
-        create: {
-          title: 'Check out Prisma with Next.js',
-          content: 'https://www.prisma.io/nextJs',
-          published: true
+  for await(const num of [...Array(50).keys()]) {
+    await prisma.user.upsert({
+      where: { id: num + 1},
+      update: {
+        name: 'Bob',
+      },
+      create: {
+        email: `bob${num + 1}@prisma.io`,
+        name: 'Bob',
+        posts: {
+          create: [
+            {
+              title: 'Follow Prisma on Twitter',
+              content: 'https://twitter.com/prisma',
+              published: true,
+            },
+            {
+              title: 'Follow Nexus on Twitter',
+              content: 'https://twitter.com/nexusgql',
+              published: true,
+            }
+          ]
         }
       }
-    }
-  })
-
-  const bob = await prisma.user.upsert({
-    where: { email: 'bob@prisma.io'},
-    update: {
-      email: 'bob@prisma.io',
-      name: 'Bob',
-    },
-    create: {
-      email: 'bob@prisma.io',
-      name: 'Bob',
-      posts: {
-        create: [
-          {
-            title: 'Follow Prisma on Twitter',
-            content: 'https://twitter.com/prisma',
-            published: true
-          },
-          {
-            title: 'Follow Nexus on Twitter',
-            content: 'https://twitter.com/nexusgql',
-            published: true,
-          }
-        ]
-      }
-    }
-  })
-  console.log({ alice, bob })
+    })
+  }
 }
 
 main()
@@ -55,6 +36,6 @@ main()
     process.exit(1)
   })
   .finally(async () => {
-    await prisma.$disconnect
+    await prisma.$disconnect()
     process.exit()
   })
